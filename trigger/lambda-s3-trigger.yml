@@ -19,7 +19,6 @@ Parameters:
   TaskSubnets: 
     Default: ""
     Description: Subnet IDs to launch fargate task
-    Type: "List<AWS::EC2::Subnet::Id>"
   Image:
     Type: String
     Description: Docker image repository
