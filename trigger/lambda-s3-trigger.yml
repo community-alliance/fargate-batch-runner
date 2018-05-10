@@ -1,0 +1,134 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  An Amazon S3 trigger that retrieves metadata for the object that has been
+  updated.
+Parameters:
+  ContainerName:
+    Type: String
+    Description: Name of service
+  ServiceName:
+    Type: String
+    Description: Name of service
+  BucketName:
+    Type: String
+    Description: Name of S3 bucket for lambda trigger
+  ECSCluster:
+    Type: String
+    Description: ECS Cluster
+  TaskSubnets: 
+    Default: ""
+    Description: Subnet IDs to launch fargate task
+    Type: "List<AWS::EC2::Subnet::Id>"
+  Image:
+    Type: String
+    Description: Docker image repository
+  TaskRoleArn:
+    Type: String
+    Description: Task Role ARN for lambda function
+  CPU:
+    Type: String
+    Default: "50"
+    Description: CPU for task definition
+  Memory:
+    Type: String
+    Default: "150"
+    Description: Memory for task definition
+Resources:
+  s3getobject:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: .
+      Description: >-
+        An Amazon S3 trigger that retrieves metadata for the object that has
+        been updated.
+      MemorySize: 128
+      Timeout: 3
+      Environment:
+        Variables:
+          CLUSTER: !Ref ECSCluster
+          TASK_DEFINITION: !Ref taskdefinition
+          SUBNETS: !Ref TaskSubnets
+          TASK_ROLE_ARN: !Ref TaskRoleArn 
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - 's3:GetObject'
+              Resource: 'arn:aws:s3:::*'
+      Events:
+        BucketEvent1:
+          Type: S3
+          Properties:
+            Bucket:
+              Ref: Bucket1
+            Events:
+              - 's3:ObjectCreated:*'
+  Bucket1:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Ref 'BucketName'
+####################################
+## AWS ECS Service definition
+##
+####################################
+  ECSServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: [ecs.amazonaws.com]
+          Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+      - PolicyName: ecs-service
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action: []
+            Resource: '*'
+
+  service:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref 'ECSCluster'
+      DesiredCount: '1'
+      LaunchType: FARGATE
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 0
+      Role: !Ref 'ECSServiceRole'
+      TaskDefinition: !Ref 'taskdefinition'
+      ServiceName: !Ref ServiceName
+
+  taskdefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Join ['', [!Ref 'AWS::StackName', !Ref ContainerName]]
+      ContainerDefinitions:
+      -
+        Name: !Ref ContainerName
+        Image: !Ref Image
+        Cpu: !Ref CPU
+        NetworkMode: awsvpc
+        # Environment:
+        # - Name: CLUSTER
+        #   Value: !Ref ECSCluster
+        Memory: !Ref Memory
+        Essential: "true"   
+        LogConfiguration:
+          LogDriver: awslogs
+          Options:
+            awslogs-group: !Ref CloudwatchLogsGroup
+            awslogs-region: !Ref 'AWS::Region'
+
+  CloudwatchLogsGroup:
+   Type: AWS::Logs::LogGroup
+   Properties:
+     LogGroupName: !Join ['-', [!Ref ServiceName, !Ref 'AWS::StackName']]
+     RetentionInDays: 14
