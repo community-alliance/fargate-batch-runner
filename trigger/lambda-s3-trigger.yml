@@ -90,7 +90,9 @@ Resources:
         PolicyDocument:
           Statement:
           - Effect: Allow
-            Action: []
+            Action: ['elasticloadbalancing:DeregisterInstancesFromLoadBalancer', 'elasticloadbalancing:DeregisterTargets',
+              'elasticloadbalancing:Describe*', 'elasticloadbalancing:RegisterInstancesWithLoadBalancer',
+              'elasticloadbalancing:RegisterTargets', 'ec2:Describe*', 'ec2:AuthorizeSecurityGroupIngress']
             Resource: '*'
 
   service:
@@ -110,12 +112,12 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       Family: !Join ['', [!Ref 'AWS::StackName', !Ref ContainerName]]
+      NetworkMode: awsvpc
       ContainerDefinitions:
       -
         Name: !Ref ContainerName
         Image: !Ref Image
         Cpu: !Ref CPU
-        NetworkMode: awsvpc
         # Environment:
         # - Name: CLUSTER
         #   Value: !Ref ECSCluster

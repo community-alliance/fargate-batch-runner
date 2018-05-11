@@ -8,7 +8,8 @@ jobs:
       - CONTAINER_NAME: "RDSLoader"
       - SERVICE_NAME: "RDSLoader"
       - ECS_CLUSTER: "feedmecluster-dev-ECSCluster-1NGE9VIBR2VBU"
-      - IMAGE: ""
+      - IMAGE: "larse514/rds-loader:10"
+      - TASK_ROLE_ARN: "arn:aws:iam::417615409974:role/RDS-Loader-Task-Role"
     steps:
       - checkout
       - run:
