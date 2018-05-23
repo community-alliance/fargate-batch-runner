@@ -65,6 +65,17 @@ Resources:
       Policies:
         - Version: '2012-10-17'
           Statement:
+            - Effect: Allow  ##TODO- is this redundant?
+              Action:
+              - ecs:RunTask
+              Resource:
+              - "*"
+            - Effect: Allow  ## Is this necessary?
+              Action:
+              - iam:PassRole
+              Resource:
+              # - !Ref ECSTaskExecutionRole
+              - "*"
             - Effect: Allow
               Action:
                 - 's3:GetObject'
@@ -83,12 +94,8 @@ Resources:
                 - "ecs:StartTask"
                 - "ecs:StopTask"
                 - "ecs:UpdateService"
-              Resource: !Ref taskdefinition
+              Resource: !Ref TaskRoleArn
               #todo-refactor
-            - Effect: Allow
-              Action: 
-                - "*"
-              Resource: "*"
       Events:
         BucketEvent1:
           Type: S3
@@ -97,6 +104,7 @@ Resources:
               Ref: Bucket1
             Events:
               - 's3:ObjectCreated:*'
+
   Bucket1:
     Type: 'AWS::S3::Bucket'
     Properties:

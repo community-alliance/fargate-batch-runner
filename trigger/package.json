@@ -1,0 +1,21 @@
+{
+  "name": "fargate-batch-trigger",
+  "version": "1.0.0",
+  "description": "Trigger for AWS ECS Fargat Batch runner",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter progress  \"src/**/*.test.js\"",
+    "lint": "eslint .",
+    "test:watch": "npm test -- --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "expect": "^22.4.3",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "winston": "^2.4.2"
+  }
+}
