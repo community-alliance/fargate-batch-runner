@@ -2,13 +2,13 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:4.8.2
+      - image: larse514/circle-ci-node-docker:latest
     environment:
       - DEPLOY_BUCKET: "lambda.bucket.moodle"
       - BUCKET_NAME: "project.feedme.rds.scripts"
       - APP_NAME: "RDSLoader-ci"
       - CLUSTER: "batch-cluster"
-      - IMAGE: "larse514/rds-loader:19"
+      - IMAGE: "larse514/rds-loader:16"
       - SUBNET1: "subnet-6dae5f27"
       - SUBNET2: "subnet-1d042940"
       - SG: "sg-8f4238c6"
