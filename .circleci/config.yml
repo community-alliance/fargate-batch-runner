@@ -30,7 +30,7 @@ jobs:
             - ./node_modules
       - run:
           name: code-coverage
-          command: 'npm run cover'
+          command: 'npm run test'
       - run: 
           working_directory: ~/fargate-batch-runner
           name: deploy
