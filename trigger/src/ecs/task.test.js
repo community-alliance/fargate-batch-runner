@@ -86,5 +86,53 @@ describe('Task', () => {
             //assert
             expect(actual).toEqual(expected);
         });
+        it('should add task definition', () => {
+            //arrange
+            const config = {
+                cluster: "CLUSTER",
+                taskDefinition: "TASKDEFINTION", 
+                subnet1: "SUBNET1",
+                subnet2: "SUBNET2",
+                securityGroup: "SECURITYGROUP", 
+                name: "NAME",
+                taskRoleArn: "TASKROLEARN"
+            };
+            const expected = {   
+                cluster: "CLUSTER",
+                taskDefinition: "TASKDEFINTION",
+                count: 1,
+                launchType: "FARGATE",
+                networkConfiguration: {
+                    awsvpcConfiguration: {
+                        subnets: ["SUBNET1","SUBNET2"],
+                        assignPublicIp: "ENABLED",
+                        securityGroups: ["SECURITYGROUP"]
+                    }
+                },
+                overrides: {
+                    containerOverrides: [
+                        {
+                            environment: [
+                      {
+                        "name": "BUCKET",
+                        "value": "BUCKETVAL"
+                      },
+                      {
+                        "name": "KEY",
+                        "value": "KEYVAL"
+                      }
+                    ],
+                            name: "NAME"
+                        }
+                    ],
+                    taskRoleArn: "TASKROLEARN"
+                }
+            };
+            //act
+            const actual = task.createDefinition("BUCKETVAL","KEYVAL",config);
+
+            //assert
+            expect(actual).toEqual(expected);
+        });
     });
   });

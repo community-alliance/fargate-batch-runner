@@ -1,8 +1,8 @@
 'use strict';
 
-const winston = require('winston');
+const logger = require('./src/logger/logger').logger
 
-winston.info('Loading function');
+logger.info('Loading function');
 
 const aws = require('aws-sdk');
 
@@ -16,10 +16,10 @@ exports.handler = (event, context, callback) => {
     // Get the object from the event and show its content type
     const bucket = event.Records[0].s3.bucket.name;
     const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
-    winston.log("About to create definition with ", bucket, key, config)
+    logger.log("About to create definition with ", bucket, key, config)
     let params = task.createDefinition(bucket, key, config);
 
-    winston.info("created params ", params)
+    logger.info("created params ", params)
 
     ecs.runTask(params, function(err, data) {
         if (err) console.log(err, err.stack); // an error occurred

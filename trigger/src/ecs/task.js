@@ -1,6 +1,5 @@
 'use strict'
-const winston = require('winston');
-
+const logger = require('../logger/logger').logger
 // Create an ECS Task definition
 exports.createDefinition = function(bucket, key, config) {
     
@@ -26,7 +25,7 @@ exports.createDefinition = function(bucket, key, config) {
             taskRoleArn: ""
         }
     });
-    winston.info("Using params ", tempParams)
+    logger.info("Using params ", tempParams)
 
     //make replacements
     tempParams.cluster = config.cluster;
@@ -44,6 +43,6 @@ exports.createDefinition = function(bucket, key, config) {
     tempParams.overrides.containerOverrides[0].environment.push({name:'BUCKET', value: bucket})
     tempParams.overrides.containerOverrides[0].environment.push({name:'KEY', value: key})
     tempParams.overrides.taskRoleArn = config.taskRoleArn
-    winston.info("Created tempparams ", tempParams)
+    logger.info("Created tempparams ", tempParams)
     return tempParams;
 }
