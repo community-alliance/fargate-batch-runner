@@ -11,7 +11,15 @@ var ecs = new aws.ECS({apiVersion: '2014-11-13'});
 const task = require('./src/ecs/task');
 
 exports.handler = (event, context, callback) => {
-    const config = require('./src/config/config').config
+    const config = {
+        cluster: process.env.CLUSTER,
+        taskDefinition: process.env.TASK_DEFINITION, 
+        subnet1: process.env.SUBNET1,
+        subnet2: process.env.SUBNET2,
+        securityGroup: process.env.SECURITYGROUP, 
+        name: process.env.NAME,
+        taskRoleArn: process.env.TASK_ROLE_ARN
+    }
     //console.log('Received event:', JSON.stringify(event, null, 2));
     // Get the object from the event and show its content type
     const bucket = event.Records[0].s3.bucket.name;
