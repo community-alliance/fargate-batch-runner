@@ -33,6 +33,11 @@ jobs:
           name: code-coverage
           command: 'cd trigger && npm run test'
       - run: 
+          name: Configure AWS environment
+          command: |
+            aws configure set default.region us-east-1
+            aws configure set default.output json
+      - run: 
           name: deploy
           command: |
             ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME} ${BUCKET_NAME} \
