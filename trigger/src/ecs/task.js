@@ -4,7 +4,6 @@ const winston = require('winston');
 // Create an ECS Task definition
 exports.createDefinition = function(bucket, key, config) {
     
-    winston.debug("about to create task definition with config: ", config)
     let tempParams = Object.assign({}, {
         cluster: "",
         taskDefinition: "",
@@ -27,6 +26,7 @@ exports.createDefinition = function(bucket, key, config) {
             taskRoleArn: ""
         }
     });
+    winston.info("Using params ", tempParams)
 
     //make replacements
     tempParams.cluster = config.cluster;
@@ -44,5 +44,6 @@ exports.createDefinition = function(bucket, key, config) {
     tempParams.overrides.containerOverrides[0].environment.push({name:'BUCKET', value: bucket})
     tempParams.overrides.containerOverrides[0].environment.push({name:'KEY', value: key})
     tempParams.overrides.taskRoleArn = config.taskRoleArn
+    winston.info("Created tempparams ", tempParams)
     return tempParams;
 }

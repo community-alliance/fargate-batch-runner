@@ -39,7 +39,6 @@ describe('Task', () => {
             //arrange
             const config = {subnet2: "subnet2"};
             const expected = config.subnet2;
-            console.log(config)
             //act
             const actual = task.createDefinition("","",config).networkConfiguration.awsvpcConfiguration.subnets[0];
 
@@ -50,7 +49,6 @@ describe('Task', () => {
             //arrange
             const config = {securityGroup: "securityGroup"};
             const expected = config.securityGroup;
-            console.log(config)
             //act
             const actual = task.createDefinition("","",config).networkConfiguration.awsvpcConfiguration.securityGroups[0];
 
