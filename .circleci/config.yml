@@ -13,7 +13,7 @@ jobs:
       - SUBNET2: "subnet-1d042940"
       - SG: "sg-8f4238c6"
       - TASK_ROLE_ARN: "arn:aws:iam::417615409974:role/RDS-Loader-Task-Role"
-    working_directory: /fargate-batch-runner/trigger
+    working_directory: fargate-batch-runner/trigger
     steps:
       - checkout
     #   - run:
