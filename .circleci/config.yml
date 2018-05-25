@@ -23,7 +23,10 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install-npm-wee
-          command: npm install
+          command: |
+          npm install
+          ls
+          pwd
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
