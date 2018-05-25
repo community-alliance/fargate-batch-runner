@@ -1,7 +1,7 @@
 'use strict'
 const logger = require('../logger/logger').logger
 // Create an ECS Task definition
-exports.createDefinition = function(bucket, key, config) {
+exports.createDefinition = (bucket, key, config) => {
     
     let tempParams = Object.assign({}, {
         cluster: "",

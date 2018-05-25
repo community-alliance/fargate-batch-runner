@@ -1,6 +1,6 @@
 'use strict'
 
-exports.function = () =>{
+exports.config = () =>{
     return {
         cluster: process.env.CLUSTER,
         taskDefinition: process.env.TASK_DEFINITION, 
