@@ -13,7 +13,6 @@ jobs:
       - SUBNET2: "subnet-1d042940"
       - SG: "sg-8f4238c6"
       - TASK_ROLE_ARN: "arn:aws:iam::417615409974:role/RDS-Loader-Task-Role"
-    working_directory: ~/trigger
     steps:
       - checkout
     #   - run:
@@ -24,17 +23,16 @@ jobs:
       - run:
           name: install-npm-wee
           command: |
-            ls && pwd && npm install 
+            cd trigger && npm install 
           
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
-            - ./node_modules
+            - ./trigger/node_modules
       - run:
           name: code-coverage
-          command: 'npm run test'
+          command: 'cd trigger && npm run test'
       - run: 
-          working_directory: ~/fargate-batch-runner
           name: deploy
           command: |
             ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME} ${BUCKET_NAME} \
