@@ -17,7 +17,7 @@ sleep 90
 # make a silly little hack test to see if bucket was created by
 # checking the bucket region location.  My understanding
 # is this should fail with exit code 255 if it doesn't exist
-bucketregion=`aws s3api get-bucket-location ${NEW_BUCKET}`
+bucketregion=`aws s3api get-bucket-location --bucket ${NEW_BUCKET}`
 
 #Check exit code
 

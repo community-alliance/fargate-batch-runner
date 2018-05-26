@@ -128,12 +128,8 @@ Resources:
         Name: !Ref ContainerName
         Image: !Ref Image
         Environment:
-        - Name: DBURL
-          Value: feedmedev.cffxov5w7rk6.us-east-1.rds.amazonaws.com
-        - Name: DBNAME
-          Value: feedmedev
-        - Name: SECRETID
-          Value: dev/project-feedme/rds
+        - Name: BUCKET
+          Value: dummyfargatebatchrunnerbucket
         Essential: "true"   
         LogConfiguration:
           LogDriver: awslogs
