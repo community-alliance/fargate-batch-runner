@@ -65,6 +65,7 @@ Resources:
       Policies:
         - Version: '2012-10-17'
           Statement:
+            - Effect: Allow  ##TODO- is this redundant?
               Action:
               - ecs:RunTask
               Resource:
