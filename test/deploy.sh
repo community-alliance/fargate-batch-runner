@@ -29,7 +29,7 @@ echo "Packing assets"
 # Package API Gateway Assets
 ##
 aws cloudformation package --template-file \
-    trigger/lambda-s3-trigger.yml --output-template-file \
+    ../trigger/lambda-s3-trigger.yml --output-template-file \
     lambda-s3-trigger-output.yml --s3-bucket $UPLOAD_BUCKET
 
 echo "Deploying assets"
