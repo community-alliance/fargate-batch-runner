@@ -11,7 +11,7 @@ jobs:
       - NEW_BUCKET_REGION: "us-east-1"
       - APP_NAME: "RDSLoader-ci-test"
       - CLUSTER: "batch-cluster"
-      - IMAGE: "larse514/rds-loader:16"
+      - IMAGE: "larse514/fargate-batch-runner-test-container:latest"
       - SUBNET1: "subnet-6dae5f27"
       - SUBNET2: "subnet-1d042940"
       - SG: "sg-8f4238c6"
