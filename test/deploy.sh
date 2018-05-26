@@ -9,10 +9,20 @@ CONTAINER_NAME=$4
 SERVICE_NAME=$5
 ECS_CLUSTER=$6
 IMAGE=$7
-TASK_ROLE_ARN=$8
-TASK_SUBNET1=$9
-TASK_SUBNET2=${10}
-SG=${11}
+TASK_SUBNET1=$8
+TASK_SUBNET2=$9
+SG=${10}
+
+##
+# Package and deploy test ARN
+##
+echo "Creating IAM Role for task"
+
+aws cloudformation package --template-file cloudformation.yml --output-template-file output.yml --s3-bucket $UPLOAD_BUCKET
+aws cloudformation deploy --template-file output.yml --stack-name $ROLE_STACK --capabilities CAPABILITY_IAM
+
+#get the TaskRoleARN
+TASK_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${ROLE_STACK} --query 'Stacks[0].Outputs[0].OutputValue' --output text`
 
 echo "Packing assets"
 ##
@@ -34,10 +44,3 @@ aws cloudformation deploy --template-file \
     Image=${IMAGE} TaskRoleArn=${TASK_ROLE_ARN} TaskSubnet1=${TASK_SUBNET1} \
     TaskSubnet2=${TASK_SUBNET2} ContainerSG=${SG}
 
-##
-# Package and deploy test ARN
-##
-echo "Creating IAM Role for task"
-
-aws cloudformation package --template-file cloudformation.yml --output-template-file output.yml --s3-bucket $UPLOAD_BUCKET
-aws cloudformation deploy --template-file output.yml --stack-name $ROLE_STACK --capabilities CAPABILITY_IAM
