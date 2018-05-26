@@ -5,10 +5,6 @@ TRIGGER=$2
 NEW_BUCKET=$3
 NEW_BUCKET_REGION=$4
 
-echo "Creating IAM Role for task"
-aws cloudformation package --template-file cloudformation.yml --output-template-file output.yml --s3-bucket moodle.deployables
-aws cloudformation deploy --template-file output.yml --stack-name testrunnerrole --capabilities CAPABILITY_IAM
-
 echo "Uploading file to s3 bucket to trigger lambda function ${TRIGGER_BUCKET}"
 
 aws s3 cp ${TRIGGER} s3://$TRIGGER_BUCKET

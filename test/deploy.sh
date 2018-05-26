@@ -33,3 +33,11 @@ aws cloudformation deploy --template-file \
     ServiceName=${SERVICE_NAME} ECSCluster=${ECS_CLUSTER} \
     Image=${IMAGE} TaskRoleArn=${TASK_ROLE_ARN} TaskSubnet1=${TASK_SUBNET1} \
     TaskSubnet2=${TASK_SUBNET2} ContainerSG=${SG}
+
+##
+# Package and deploy test ARN
+##
+echo "Creating IAM Role for task"
+
+aws cloudformation package --template-file cloudformation.yml --output-template-file output.yml --s3-bucket $UPLOAD_BUCKET
+aws cloudformation deploy --template-file output.yml --stack-name $ROLE_STACK --capabilities CAPABILITY_IAM
