@@ -5,7 +5,7 @@ jobs:
       - image: larse514/circle-ci-node-docker:latest
     environment:
       - DEPLOY_BUCKET: "lambda.bucket.moodle"
-      - TRIGGER_BUCKET: "project.feedme.rds.scripts"
+      - TRIGGER_BUCKET: "batch.runner.trigger"
       - TRIGGER: "./trigger/trigger.txt"
       - NEW_BUCKET: "dummyfargatebatchrunnerbucket"
       - NEW_BUCKET_REGION: "us-east-1"

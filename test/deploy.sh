@@ -19,7 +19,7 @@ SG=${10}
 echo "Creating IAM Role for task"
 
 aws cloudformation package --template-file cloudformation.yml --output-template-file output.yml --s3-bucket $UPLOAD_BUCKET
-aws cloudformation deploy --template-file output.yml --stack-name $ROLE_STACK --capabilities CAPABILITY_IAM
+aws cloudformation deploy --no-fail-on-empty-changeset --template-file output.yml --stack-name $ROLE_STACK --capabilities CAPABILITY_IAM
 
 #get the TaskRoleARN
 TASK_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${ROLE_STACK} --query 'Stacks[0].Outputs[0].OutputValue' --output text`
@@ -36,7 +36,7 @@ echo "Deploying assets"
 ##
 # Deploy Assets
 ##
-aws cloudformation deploy --template-file \
+aws cloudformation deploy --no-fail-on-empty-changeset --template-file \
     lambda-s3-trigger-output.yml --capabilities CAPABILITY_IAM \
     --stack-name ${STACK_NAME}  --parameter-overrides \
     BucketName=${S3_BUCKET} ContainerName=${CONTAINER_NAME} \
