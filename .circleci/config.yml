@@ -49,7 +49,6 @@ jobs:
             ${APP_NAME} ${APP_NAME} ${CLUSTER} ${IMAGE}  \
             ${SUBNET1} ${SUBNET2} ${SG}
             #test the s3 trigger
-            chmod +X test-s3-trigger.sh
             sleep 90
             ./test-s3-trigger.sh ${TRIGGER_BUCKET} ${TRIGGER} ${NEW_BUCKET} ${NEW_BUCKET_REGION}
 

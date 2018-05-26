@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 TRIGGER_BUCKET=$1
 TRIGGER=$2
 NEW_BUCKET=$3
