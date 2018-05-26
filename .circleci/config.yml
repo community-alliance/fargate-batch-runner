@@ -45,11 +45,11 @@ jobs:
           command: |
             #just cd into the directory because i don't want to read the circleci docs anymore =/
             cd test
+            ls -l
             ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME} ${TRIGGER_BUCKET} \
             ${APP_NAME} ${APP_NAME} ${CLUSTER} ${IMAGE}  \
             ${SUBNET1} ${SUBNET2} ${SG}
             #test the s3 trigger
-            sleep 90
             ./test-s3-trigger.sh ${TRIGGER_BUCKET} ${TRIGGER} ${NEW_BUCKET} ${NEW_BUCKET_REGION}
 
             #cleanup

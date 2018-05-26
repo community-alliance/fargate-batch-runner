@@ -11,6 +11,9 @@ echo "Uploading file to s3 bucket to trigger lambda function ${TRIGGER_BUCKET}"
 
 aws s3 cp ${TRIGGER} s3://$TRIGGER_BUCKET
 
+#sleep for a bit to allow the task to run
+sleep 90
+
 # make a silly little hack test to see if bucket was created by
 # checking the bucket region location.  My understanding
 # is this should fail with exit code 255 if it doesn't exist
