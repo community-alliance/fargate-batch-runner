@@ -5,14 +5,17 @@ jobs:
       - image: larse514/circle-ci-node-docker:latest
     environment:
       - DEPLOY_BUCKET: "lambda.bucket.moodle"
-      - BUCKET_NAME: "project.feedme.rds.scripts"
-      - APP_NAME: "RDSLoader-ci"
+      - TRIGGER_BUCKET: "project.feedme.rds.scripts"
+      - TRIGGER: "./trigger/trigger.txt"
+      - NEW_BUCKET: "dummyfargatebatchrunnerbucket"
+      - NEW_BUCKET_REGION: "us-east-1"
+      - APP_NAME: "RDSLoader-ci-test"
       - CLUSTER: "batch-cluster"
       - IMAGE: "larse514/rds-loader:16"
       - SUBNET1: "subnet-6dae5f27"
       - SUBNET2: "subnet-1d042940"
       - SG: "sg-8f4238c6"
-      - TASK_ROLE_ARN: "arn:aws:iam::417615409974:role/RDS-Loader-Task-Role"
+      - ROLE_STACK: "testrolestack"
     steps:
       - checkout
     #   - run:
@@ -30,7 +33,7 @@ jobs:
       #     paths:
       #       - ./trigger/node_modules
       - run:
-          name: code-coverage
+          name: unit test
           command: 'cd trigger && npm run test'
       - run: 
           name: Configure AWS environment
@@ -38,11 +41,21 @@ jobs:
             aws configure set default.region us-east-1
             aws configure set default.output json
       - run: 
-          name: deploy
+          name: test batch trigger
           command: |
-            ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME} ${BUCKET_NAME} \
+            #just cd into the directory because i don't want to read the circleci docs anymore =/
+            cd test
+            #get the TaskRoleARN
+            TASK_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${ROLE_STACK} --query 'Stacks[0].Outputs[0].OutputValue' --output text`
+
+            ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME} ${TRIGGER_BUCKET} \
             ${APP_NAME} ${APP_NAME} ${CLUSTER} ${IMAGE} ${TASK_ROLE_ARN} \
             ${SUBNET1} ${SUBNET2} ${SG}
+            #test the s3 trigger
+            ./test-s3-trigger.sh ${TRIGGER_BUCKET} ${TRIGGER} ${NEW_BUCKET} ${NEW_BUCKET_REGION}
+
+            #cleanup
+            ./cleanup.sh ${ROLE_STACK}
       - store_artifacts:
           path: test-results.xml
           prefix: tests

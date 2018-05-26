@@ -42,7 +42,7 @@ Parameters:
     Type: String
     Description: Security group for fargate task
 Resources:
-  s3getobject:
+  BatchTrigger:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.handler
@@ -65,11 +65,11 @@ Resources:
       Policies:
         - Version: '2012-10-17'
           Statement:
-            - Effect: Allow  ##TODO- is this redundant?
-              Action:
-              - ecs:RunTask
-              Resource:
-              - "*"
+            # - Effect: Allow  ##TODO- is this redundant?
+            #   Action:
+            #   - ecs:RunTask
+            #   Resource:
+            #   - "*"
             - Effect: Allow  ## Is this necessary?
               Action:
               - iam:PassRole
@@ -95,7 +95,6 @@ Resources:
                 - "ecs:StopTask"
                 - "ecs:UpdateService"
               Resource: !Ref TaskRoleArn
-              #todo-refactor
       Events:
         BucketEvent1:
           Type: S3
