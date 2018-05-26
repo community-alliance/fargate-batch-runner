@@ -128,7 +128,7 @@ Resources:
         Name: !Ref ContainerName
         Image: !Ref Image
         Environment:
-        - Name: BUCKET
+        - Name: NEW_BUCKET
           Value: dummyfargatebatchrunnerbucket
         Essential: "true"   
         LogConfiguration:
