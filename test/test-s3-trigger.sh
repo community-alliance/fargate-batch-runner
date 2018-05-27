@@ -27,6 +27,4 @@ then
     exit 1
 fi
 
-# otherwise cleanup 
-aws s3api delete-bucket --bucket ${NEW_BUCKET}
 
