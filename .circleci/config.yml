@@ -44,6 +44,7 @@ jobs:
           name: test batch trigger
           command: |
             #just cd into the directory because i don't want to read the circleci docs anymore =/
+            cd test
             ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME} ${TRIGGER_BUCKET} \
             ${APP_NAME} ${APP_NAME} ${CLUSTER} ${IMAGE}  \
             ${SUBNET1} ${SUBNET2} ${SG}
