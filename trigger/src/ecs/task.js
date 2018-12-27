@@ -50,7 +50,8 @@ exports.createDefinition = (bucket, key, config) => {
         tempParams.overrides.containerOverrides[0].environment.push({name:'KEY', value: key})   
     }
     if(Object.keys(environment).length !== 0 && environment.constructor !== Object){
-        tempParams.overrides.containerOverrides[0].environment.push(environment)
+        tempParams.overrides.containerOverrides[0].environment.push(...environment)
+
     }
     tempParams.overrides.taskRoleArn = config.taskRoleArn
     logger.info("Created tempparams ", tempParams)
