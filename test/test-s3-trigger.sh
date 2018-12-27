@@ -27,6 +27,7 @@ then
     exit 1
 fi
 
+echo "Removing s3://$TRIGGER_BUCKET/${TRIGGER}"
 #delete trigger file
 aws s3 rm  s3://$TRIGGER_BUCKET/${TRIGGER}
 
