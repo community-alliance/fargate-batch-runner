@@ -132,7 +132,7 @@ Resources:
         Image: !Ref Image
         Environment:
         - Name: ENV_JSON
-          Value: !Ref Environment
+          Value: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket"}'
         Essential: "true"   
         LogConfiguration:
           LogDriver: awslogs
