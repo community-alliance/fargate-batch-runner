@@ -27,4 +27,8 @@ then
     exit 1
 fi
 
+#delete trigger file
+aws s3 rm  s3://$TRIGGER_BUCKET/${TRIGGER}
+
+
 
