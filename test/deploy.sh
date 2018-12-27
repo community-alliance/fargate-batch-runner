@@ -12,7 +12,7 @@ IMAGE=$7
 TASK_SUBNET1=$8
 TASK_SUBNET2=$9
 SG=${10}
-
+ROLE_STACK=${11}
 ##
 # Package and deploy test ARN
 ##
