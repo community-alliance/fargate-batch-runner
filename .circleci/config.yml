@@ -4,16 +4,16 @@ jobs:
     docker:
       - image: larse514/circle-ci-node-docker:latest
     environment:
-      - DEPLOY_BUCKET: "lambda.bucket.moodle"
-      - TRIGGER_BUCKET: "batch.runner.trigger"
+      - DEPLOY_BUCKET: "cloudformation-bucket-community-alliance"
+      - TRIGGER_BUCKET: "community.alliance.batch.runner.trigger"
       - TRIGGER: "./trigger/trigger.txt"
       - NEW_BUCKET: "dummyfargatebatchrunnerbucket"
       - NEW_BUCKET_REGION: "us-east-1"
       - APP_NAME: "RDSLoader-ci-test"
-      - CLUSTER: "batch-cluster"
+      - CLUSTER: "community-alliance-dev-cluster"
       - IMAGE: "larse514/fargate-batch-runner-test-container:latest"
-      - SUBNET1: "subnet-6dae5f27"
-      - SUBNET2: "subnet-1d042940"
+      - SUBNET1: "subnet-03d0996a110b0df80"
+      - SUBNET2: "subnet-01dae19f56f192a37"
       - SG: "sg-8f4238c6"
       - ROLE_STACK: "testrolestack"
     steps:
