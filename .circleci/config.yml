@@ -8,6 +8,7 @@ jobs:
       - TRIGGER_BUCKET: "community.alliance.batch.runner.trigger"
       - TRIGGER_BUCKET_CI: "community.alliance.batch.runner.ci.trigger"
       - TRIGGER: "./trigger/trigger.txt"
+      - TRIGGER_FILE_NAME: "trigger.txt"
       - NEW_BUCKET: "dummyfargatebatchrunnerbucket"
       - NEW_BUCKET_REGION: "us-east-1"
       - APP_NAME_CI: "RDSLoader-ci-test"
@@ -17,7 +18,8 @@ jobs:
       - SUBNET1: "subnet-03d0996a110b0df80"
       - SUBNET2: "subnet-01dae19f56f192a37"
       - SG: "sg-0fe06144cc7a0ae94"
-      - ROLE_STACK: "testrolestack"
+      - ROLE_STACK_CI: "testrolestack"
+      - ROLE_STACK: "batch-runner-stack"
     steps:
       - checkout
     #   - run:
@@ -51,10 +53,10 @@ jobs:
             ${APP_NAME_CI} ${APP_NAME_CI} ${CLUSTER} ${IMAGE}  \
             ${SUBNET1} ${SUBNET2} ${SG}
             #test the s3 trigger
-            ./test-s3-trigger.sh ${TRIGGER_BUCKET_CI} ${TRIGGER} ${NEW_BUCKET} ${NEW_BUCKET_REGION}
+            ./test-s3-trigger.sh ${TRIGGER_BUCKET_CI} ${TRIGGER_FILE_NAME} ${TRIGGER} ${NEW_BUCKET} ${NEW_BUCKET_REGION}
 
             #cleanup
-            ./cleanup.sh ${ROLE_STACK} ${NEW_BUCKET} ${APP_NAME_CI}
+            ./cleanup.sh ${ROLE_STACK_CI} ${NEW_BUCKET} ${APP_NAME_CI}
       - run: 
           name: deploy
           command: |

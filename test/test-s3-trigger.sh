@@ -3,9 +3,10 @@
 set -e
 
 TRIGGER_BUCKET=$1
-TRIGGER=$2
-NEW_BUCKET=$3
-NEW_BUCKET_REGION=$4
+TRIGGER_FILE_NAME=$2
+TRIGGER=$3
+NEW_BUCKET=$4
+NEW_BUCKET_REGION=$5
 
 echo "Uploading file to s3 bucket to trigger lambda function ${TRIGGER_BUCKET}"
 
@@ -27,9 +28,9 @@ then
     exit 1
 fi
 
-echo "Removing s3://$TRIGGER_BUCKET/${TRIGGER}"
+echo "Removing s3://$TRIGGER_BUCKET/${TRIGGER_FILE_NAME}"
 #delete trigger file
-aws s3 rm  s3://$TRIGGER_BUCKET/${TRIGGER}
+aws s3 rm  s3://$TRIGGER_BUCKET/${TRIGGER_FILE_NAME}
 
 
 
