@@ -1,13 +1,16 @@
 'use strict'
 
-exports.config = () => {
-    return {
-        cluster: process.env.CLUSTER,
-        taskDefinition: process.env.TASK_DEFINITION, 
-        subnet1: process.env.SUBNET1,
-        subnet2: process.env.SUBNET2,
-        securityGroup: process.env.SECURITYGROUP, 
-        name: process.env.NAME,
-        taskRoleArn: process.env.TASK_ROLE_ARN
+exports.parseEnvironmentJson = (jsonString) => {
+    //check to ensure jsonString isn't empty or undefined
+    if(!jsonString || jsonString === ""){
+        return {}
     }
+    let json = JSON.parse(jsonString);
+    let resultArray = [];
+    for (var key in json) {
+        if (json.hasOwnProperty(key)) {
+            resultArray.push({name: key, value: json[key]});
+        }
+    }
+    return resultArray
 } 

@@ -1,5 +1,7 @@
 'use strict'
 const logger = require('../logger/logger').logger
+const parseEnvironmentJson = require('../config/config').parseEnvironmentJson;
+
 // Create an ECS Task definition
 exports.createDefinition = (bucket, key, config) => {
     
@@ -26,6 +28,7 @@ exports.createDefinition = (bucket, key, config) => {
         }
     });
     logger.info("Using params ", tempParams)
+    const environment = parseEnvironmentJson(config.jsonString);
 
     //make replacements
     tempParams.cluster = config.cluster;
@@ -40,8 +43,15 @@ exports.createDefinition = (bucket, key, config) => {
         tempParams.networkConfiguration.awsvpcConfiguration.securityGroups.push(config.securityGroup);
     }
     tempParams.overrides.containerOverrides[0].name = config.name;
-    tempParams.overrides.containerOverrides[0].environment.push({name:'BUCKET', value: bucket})
-    tempParams.overrides.containerOverrides[0].environment.push({name:'KEY', value: key})
+    if(bucket && bucket !== ""){
+        tempParams.overrides.containerOverrides[0].environment.push({name:'BUCKET', value: bucket})
+    }
+    if(key && key !== ""){
+        tempParams.overrides.containerOverrides[0].environment.push({name:'KEY', value: key})   
+    }
+    if(Object.keys(environment).length !== 0 && environment.constructor !== Object){
+        tempParams.overrides.containerOverrides[0].environment.push(environment)
+    }
     tempParams.overrides.taskRoleArn = config.taskRoleArn
     logger.info("Created tempparams ", tempParams)
     return tempParams;

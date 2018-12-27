@@ -86,6 +86,16 @@ describe('Task', () => {
             //assert
             expect(actual).toEqual(expected);
         });
+        it('should add environment json string', () => {
+            //arrange
+            const config = {jsonString: '{"KEY": "VALUE"}'};
+            const expected = [{name: "KEY", value: "VALUE"}];
+            //act
+            const actual = task.createDefinition("","",config).overrides.containerOverrides[0].environment;
+
+            //assert
+            expect(actual).toEqual(expected);
+        });
         it('should add task definition', () => {
             //arrange
             const config = {

@@ -18,7 +18,8 @@ exports.handler = (event, context, callback) => {
         subnet2: process.env.SUBNET2,
         securityGroup: process.env.SECURITYGROUP, 
         name: process.env.NAME,
-        taskRoleArn: process.env.TASK_ROLE_ARN
+        taskRoleArn: process.env.TASK_ROLE_ARN,
+        jsonString: process.env.ENV_JSON
     }
     //console.log('Received event:', JSON.stringify(event, null, 2));
     // Get the object from the event and show its content type

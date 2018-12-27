@@ -41,9 +41,6 @@ Parameters:
   ContainerSG:
     Type: String
     Description: Security group for fargate task
-  Environment:
-    Type: String
-    Description: JSON string of environment variables to be parsed by lambda function
 Resources:
   BatchTrigger:
     Type: 'AWS::Serverless::Function'
@@ -65,6 +62,9 @@ Resources:
           TASK_ROLE_ARN: !Ref TaskRoleArn 
           NAME: !Ref ContainerName
           SECURITYGROUP: !Ref ContainerSG
+          DBURL: !Ref DBURL
+          DBNAME: !Ref DBNAME
+          SECRETID: !Ref SECRETID
       Policies:
         - Version: '2012-10-17'
           Statement:
@@ -131,8 +131,8 @@ Resources:
         Name: !Ref ContainerName
         Image: !Ref Image
         Environment:
-        - Name: ENV_JSON
-          Value: !Ref Environment
+        - Name: NEW_BUCKET
+          Value: dummyfargatebatchrunnerbucket
         Essential: "true"   
         LogConfiguration:
           LogDriver: awslogs
