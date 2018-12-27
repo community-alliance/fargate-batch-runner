@@ -18,7 +18,7 @@ jobs:
       - IMAGE: "larse514/rds-loader:16"
       - SUBNET1: "subnet-03d0996a110b0df80"
       - SUBNET2: "subnet-01dae19f56f192a37"
-      - SG: "sg-0fe06144cc7a0ae94"
+      - SG: "sg-0e8e7c0fcaa7e9517"
       - ROLE_STACK_CI: "testrolestack"
       - ROLE_STACK: "batch-runner-stack"
       - ENVIRONMENT_CI: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket"}'
