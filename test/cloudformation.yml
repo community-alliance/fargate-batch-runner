@@ -56,12 +56,12 @@ Resources:
             - Effect: Allow
               Action:
               - secretsmanager:DescribeSecret
-              Resource: !Sub arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:devdboffers
+              Resource: !Sub arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:devdboffers*
             - Sid: Stmt2GetSecretValue
               Effect: Allow
               Action:
               - secretsmanager:GetSecretValue
-              Resource: !Sub arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:devdboffers
+              Resource: !Sub arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:devdboffers*
 Outputs:
   ECSTestRoleArn:
     Value: !GetAtt 
