@@ -65,6 +65,7 @@ Resources:
           TASK_ROLE_ARN: !Ref TaskRoleArn 
           NAME: !Ref ContainerName
           SECURITYGROUP: !Ref ContainerSG
+          ENV_JSON: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket"}'
       Policies:
         - Version: '2012-10-17'
           Statement:
