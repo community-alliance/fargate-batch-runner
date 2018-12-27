@@ -13,6 +13,7 @@ TASK_SUBNET1=$8
 TASK_SUBNET2=$9
 SG=${10}
 ROLE_STACK=${11}
+Environment=${12}
 ##
 # Package and deploy test ARN
 ##
@@ -42,5 +43,5 @@ aws cloudformation deploy --no-fail-on-empty-changeset --template-file \
     BucketName=${S3_BUCKET} ContainerName=${CONTAINER_NAME} \
     ServiceName=${SERVICE_NAME} ECSCluster=${ECS_CLUSTER} \
     Image=${IMAGE} TaskRoleArn=${TASK_ROLE_ARN} TaskSubnet1=${TASK_SUBNET1} \
-    TaskSubnet2=${TASK_SUBNET2} ContainerSG=${SG}
+    TaskSubnet2=${TASK_SUBNET2} ContainerSG=${SG} Environment=${Environment}
 

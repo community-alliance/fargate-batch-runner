@@ -21,6 +21,7 @@ jobs:
       - SG: "sg-0fe06144cc7a0ae94"
       - ROLE_STACK_CI: "testrolestack"
       - ROLE_STACK: "batch-runner-stack"
+      - ENVIRONMENT_CI: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket"}'
     steps:
       - checkout
     #   - run:
@@ -52,7 +53,7 @@ jobs:
             cd test
             ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME_CI} ${TRIGGER_BUCKET_CI} \
             ${APP_NAME_CI} ${APP_NAME_CI} ${CLUSTER} ${IMAGE}  \
-            ${SUBNET1} ${SUBNET2} ${SG} ${ROLE_STACK_CI}
+            ${SUBNET1} ${SUBNET2} ${SG} ${ROLE_STACK_CI} ${ENVIRONMENT_CI}
             #test the s3 trigger
             ./test-s3-trigger.sh ${TRIGGER_BUCKET_CI} ${TRIGGER_FILE_NAME} ${TRIGGER} ${NEW_BUCKET} ${NEW_BUCKET_REGION}
 
