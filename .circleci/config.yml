@@ -22,7 +22,7 @@ jobs:
       - ROLE_STACK_CI: "testrolestack"
       - ROLE_STACK: "batch-runner-stack"
       - ENVIRONMENT_CI: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket"}'
-      - ENVIRONMENT: '{"DBURL": "devdboffers.cmx0qjzmdv28.us-east-1.rds.amazonaws.com", "DBNAME": "devdboffers", "SECRETID": "devdboffers" }'
+      - ENVIRONMENT: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket","DBURL": "devdboffers.cmx0qjzmdv28.us-east-1.rds.amazonaws.com", "DBNAME": "devdboffers", "SECRETID": "devdboffers" }'
 
     steps:
       - checkout
