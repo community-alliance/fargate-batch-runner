@@ -10,7 +10,8 @@ jobs:
       - TRIGGER: "./trigger/trigger.txt"
       - NEW_BUCKET: "dummyfargatebatchrunnerbucket"
       - NEW_BUCKET_REGION: "us-east-1"
-      - APP_NAME: "RDSLoader-ci-test"
+      - APP_NAME_CI: "RDSLoader-ci-test"
+      - APP_NAME: "RDSLoader-test"
       - CLUSTER: "community-alliance-dev-cluster"
       - IMAGE: "larse514/fargate-batch-runner-test-container:latest"
       - SUBNET1: "subnet-03d0996a110b0df80"
@@ -46,14 +47,14 @@ jobs:
           command: |
             #just cd into the directory because i don't want to read the circleci docs anymore =/
             cd test
-            ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME} ${TRIGGER_BUCKET_CI} \
-            ${APP_NAME} ${APP_NAME} ${CLUSTER} ${IMAGE}  \
+            ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME_CI} ${TRIGGER_BUCKET_CI} \
+            ${APP_NAME_CI} ${APP_NAME_CI} ${CLUSTER} ${IMAGE}  \
             ${SUBNET1} ${SUBNET2} ${SG}
             #test the s3 trigger
             ./test-s3-trigger.sh ${TRIGGER_BUCKET_CI} ${TRIGGER} ${NEW_BUCKET} ${NEW_BUCKET_REGION}
 
             #cleanup
-            ./cleanup.sh ${ROLE_STACK} ${NEW_BUCKET} ${APP_NAME}
+            ./cleanup.sh ${ROLE_STACK} ${NEW_BUCKET} ${APP_NAME_CI}
       - run: 
           name: deploy
           command: |
