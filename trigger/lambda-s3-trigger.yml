@@ -65,7 +65,7 @@ Resources:
           TASK_ROLE_ARN: !Ref TaskRoleArn 
           NAME: !Ref ContainerName
           SECURITYGROUP: !Ref ContainerSG
-          ENV_JSON: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket"}'
+          ENV_JSON: !Ref Environment
       Policies:
         - Version: '2012-10-17'
           Statement:
@@ -131,9 +131,6 @@ Resources:
       -
         Name: !Ref ContainerName
         Image: !Ref Image
-        Environment:
-        - Name: ENV_JSON
-          Value: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket"}'
         Essential: "true"   
         LogConfiguration:
           LogDriver: awslogs
