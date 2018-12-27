@@ -21,7 +21,7 @@ jobs:
       - SG: "sg-0fe06144cc7a0ae94"
       - ROLE_STACK_CI: "testrolestack"
       - ROLE_STACK: "batch-runner-stack"
-      - ENVIRONMENT_CI: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket"}'
+      - ENVIRONMENT_CI: "'{\"NEW_BUCKET\": \"dummyfargatebatchrunnerbucket\"}'"
       - ENVIRONMENT: '{"DBURL": "devdboffers.cmx0qjzmdv28.us-east-1.rds.amazonaws.com", "DBNAME": "devdboffers", "SECRETID": "devdboffers" }'
 
     steps:
@@ -68,7 +68,7 @@ jobs:
             cd test
             ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME} ${TRIGGER_BUCKET} \
             ${APP_NAME} ${APP_NAME} ${CLUSTER} ${IMAGE}  \
-            ${SUBNET1} ${SUBNET2} ${SG} ${ROLE_STACK}
+            ${SUBNET1} ${SUBNET2} ${SG} ${ROLE_STACK}  ${ENVIRONMENT}
       - store_artifacts:
           path: test-results.xml
           prefix: tests
