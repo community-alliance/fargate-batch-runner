@@ -65,7 +65,7 @@ Resources:
           TASK_ROLE_ARN: !Ref TaskRoleArn 
           NAME: !Ref ContainerName
           SECURITYGROUP: !Ref ContainerSG
-          ENV_JSON: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket","DBURL": "devdboffers.cmx0qjzmdv28.us-east-1.rds.amazonaws.com", "DBNAME": "devdboffers", "SECRETID": "devdboffers" }'
+          ENV_JSON: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket","DBURL": "devdboffers.cmx0qjzmdv28.us-east-1.rds.amazonaws.com", "DBNAME": "dboffers", "SECRETID": "devdboffers" }'
       Policies:
         - Version: '2012-10-17'
           Statement:
