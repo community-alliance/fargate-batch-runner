@@ -68,6 +68,6 @@ jobs:
           command: |
             #just cd into the directory because i don't want to read the circleci docs anymore =/
             cd test
-            ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME_STAGE} ${TRIGGER_BUCKET} \
+            ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME_STAGE} ${TRIGGER_BUCKET_STAGE} \
             ${APP_NAME_STAGE} ${APP_NAME_STAGE} ${CLUSTER} ${IMAGE}  \
             ${SUBNET1} ${SUBNET2} ${SG_STAGE} ${ROLE_STACK}  ${ENVIRONMENT_STAGE}
