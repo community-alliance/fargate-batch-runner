@@ -6,12 +6,14 @@ jobs:
     environment:
       - DEPLOY_BUCKET: "cloudformation-bucket-community-alliance"
       - TRIGGER_BUCKET: "community.alliance.batch.runner.trigger"
+      - TRIGGER_BUCKET_STAGE: "community.alliance.batch.runner.stage.trigger"
       - TRIGGER_BUCKET_CI: "community.alliance.batch.runner.ci.trigger"
       - TRIGGER: "./trigger/trigger.txt"
       - TRIGGER_FILE_NAME: "trigger.txt"
       - NEW_BUCKET: "dummyfargatebatchrunnerbucket"
       - NEW_BUCKET_REGION: "us-east-1"
       - APP_NAME_CI: "RDSLoader-ci-test"
+      - APP_NAME_STAGE: "RDSLoader-stage"
       - APP_NAME: "RDSLoader"
       - CLUSTER: "community-alliance-dev-cluster"
       - IMAGE_CI: "larse514/fargate-batch-runner-test-container:latest"
@@ -19,27 +21,19 @@ jobs:
       - SUBNET1: "subnet-03d0996a110b0df80"
       - SUBNET2: "subnet-01dae19f56f192a37"
       - SG: "sg-0cd1358b2477c7bfc"
+      - SG_STAGE: "sg-0d7b36bda529938cf"
       - ROLE_STACK_CI: "testrolestack"
       - ROLE_STACK: "batch-runner-stack"
       - ENVIRONMENT_CI: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket"}'
       - ENVIRONMENT: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket","DBURL": "devdboffers.cmx0qjzmdv28.us-east-1.rds.amazonaws.com", "DBNAME": "devdboffers", "SECRETID": "devdboffers" }'
+      - ENVIRONMENT_STAGE: '{"NEW_BUCKET": "dummyfargatebatchrunnerbucket","DBURL": "stagedboffers.cmx0qjzmdv28.us-east-1.rds.amazonaws.com", "DBNAME": "stagedboffers", "SECRETID": "stagedboffers" }'
 
     steps:
       - checkout
-    #   - run:
-    #       name: update-npm
-    #       command: 'sudo npm install -g npm@latest'
-      # - restore_cache:
-      #     key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install-npm-wee
           command: |
             cd trigger && npm install 
-          
-      # - save_cache:
-      #     key: dependency-cache-{{ checksum "package.json" }}
-      #     paths:
-      #       - ./trigger/node_modules
       - run:
           name: unit test
           command: 'cd trigger && npm run test'
@@ -62,18 +56,18 @@ jobs:
             #cleanup
             ./cleanup.sh ${ROLE_STACK_CI} ${NEW_BUCKET} ${APP_NAME_CI}
       - run: 
-          name: deploy
+          name: deploy dev
           command: |
             #just cd into the directory because i don't want to read the circleci docs anymore =/
             cd test
             ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME} ${TRIGGER_BUCKET} \
             ${APP_NAME} ${APP_NAME} ${CLUSTER} ${IMAGE}  \
             ${SUBNET1} ${SUBNET2} ${SG} ${ROLE_STACK}  ${ENVIRONMENT}
-      - store_artifacts:
-          path: test-results.xml
-          prefix: tests
-      - store_artifacts:
-          path: coverage
-          prefix: coverage
-      - store_test_results:
-          path: test-results.xml
+      - run: 
+          name: deploy stage
+          command: |
+            #just cd into the directory because i don't want to read the circleci docs anymore =/
+            cd test
+            ./deploy.sh ${DEPLOY_BUCKET} ${APP_NAME_CI} ${TRIGGER_BUCKET} \
+            ${APP_NAME_CI} ${APP_NAME_CI} ${CLUSTER} ${IMAGE}  \
+            ${SUBNET1} ${SUBNET2} ${SG_STAGE} ${ROLE_STACK}  ${ENVIRONMENT_STAGE}
